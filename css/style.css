@@ -1,0 +1,6 @@
+@font-face {
+  font-family: "vazir";
+  src: url("../fonts/number/Vazir.eot") format("eot");
+  src: url("../fonts/number/Vazir.ttf") format("truetype"),
+    url("../fonts/number/Vazir.woff") format("woff");
+}
