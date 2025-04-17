@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Filter from "./Filter";
 import Products from "./Products";
 import Cart from "./Cart";
@@ -8,6 +8,9 @@ function Home() {
   const [sort, setSort] = useState("asc");
   const [brand, setBrand] = useState("");
   const [cartItems, setCartItems] = useState([]);
+  const [isCartModalOpen, setIsCartModalOpen] = useState(false);
+  const modalRef = useRef(null);
+  
   const sortProducts = (event) => {
     setSort(event.target.value);
     if (sort === "asc") {
@@ -58,6 +61,31 @@ function Home() {
     }
   };
 
+  const toggleCartModal = () => {
+    setIsCartModalOpen(!isCartModalOpen);
+  };
+  
+  // Close modal when clicking outside
+  const handleClickOutside = (event) => {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      setIsCartModalOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    // Add event listener when modal is open
+    if (isCartModalOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+    
+    // Clean up the event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isCartModalOpen]);
+
   const getMode = () => {
     const initialMode = localStorage.getItem("mode");
     if (initialMode == null) {
@@ -77,6 +105,9 @@ function Home() {
     localStorage.setItem("mode", JSON.stringify(dark));
   }, [dark]);
 
+  // Calculate total cart items
+  const totalCartItems = cartItems.reduce((total, item) => total + item.qty, 0);
+
   return (
     <div className={dark ? "containers dark-mode" : "containers"}>
       <header className="header">
@@ -87,15 +118,24 @@ function Home() {
               <li>درباره ما</li>
               <li>تماس با ما</li>
             </ul>
-            <label htmlFor="q" className="switch">
-              <input
-                id="q"
-                type="checkbox"
-                onChange={() => setDark(!dark)}
-                checked={dark}
-              />
-              <span className="slider round"></span>
-            </label>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              {/* Cart Icon for Mobile */}
+              <div className="cart-icon" onClick={toggleCartModal}>
+                <i className="fa fa-shopping-cart"></i>
+                {totalCartItems > 0 && (
+                  <span className="cart-count">{totalCartItems}</span>
+                )}
+              </div>
+              <label htmlFor="q" className="switch">
+                <input
+                  id="q"
+                  type="checkbox"
+                  onChange={() => setDark(!dark)}
+                  checked={dark}
+                />
+                <span className="slider round"></span>
+              </label>
+            </div>
           </div>
         </div>
       </header>
@@ -116,6 +156,21 @@ function Home() {
         </div>
       </main>
       <footer>طراحی توسط خودمون :) </footer>
+
+      {/* Mobile Cart Modal */}
+      <div className={`mobile-cart-modal ${isCartModalOpen ? 'open' : ''}`}>
+        <div className="mobile-cart-content" ref={modalRef}>
+          <div className="mobile-cart-header">
+            <h2>سبد خرید</h2>
+            <button className="mobile-cart-close" onClick={toggleCartModal}>
+              <i className="fa fa-times"></i>
+            </button>
+          </div>
+          <div className="mobile-cart-body">
+            <Cart cartItems={cartItems} removeProducts={removeProducts} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

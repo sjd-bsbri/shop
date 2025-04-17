@@ -20,7 +20,12 @@ function Cart(props) {
             <div className="product-item card mb-2">
               <div className="product-detail card-body d-flex align-items-center">
                 <img src={item.image} alt="" className="img-fluid me-2" style={{maxWidth: "60px"}} />
-                <h5 className="card-title mb-0">{item.title}</h5>
+                <div className="cart-item-details">
+                  <h5 className="card-title mb-0">{item.title}</h5>
+                  <div className="item-qty-price">
+                    {formatCurrency(item.price)} × {item.qty}
+                  </div>
+                </div>
               </div>
               <div className="product-price card-footer d-flex justify-content-between align-items-center">
                 <div className="price">
@@ -28,7 +33,9 @@ function Cart(props) {
                   <span className="qty badge bg-secondary ms-2"> {item.qty} خرید</span>
                 </div>
                 <div className="remove-item">
-                  <button className="btn btn-sm btn-danger" onClick={() => removeProducts(item)}>حذف از سبد</button>
+                  <button className="btn btn-sm btn-danger" onClick={() => removeProducts(item)}>
+                    <i className="fa fa-trash"></i> حذف از سبد
+                  </button>
                 </div>
               </div>
             </div>
@@ -40,6 +47,11 @@ function Cart(props) {
           <div className="card-body d-flex justify-content-between">
             <div className="total-text fw-bold">مجموع قیمت :</div>
             <div className="total">{formatCurrency(totalPrice)}</div>
+          </div>
+          <div className="card-footer text-center">
+            <button className="checkout-button">
+              <i className="fa fa-credit-card"></i> تکمیل خرید
+            </button>
           </div>
         </div>
       )}

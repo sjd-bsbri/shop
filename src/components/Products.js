@@ -47,25 +47,29 @@ function Products({ item, addProducts }) {
           // eslint-disable-next-line no-unused-vars
           const { id, title, image, price, availableBrand, qty } = x;
           return (
-            <li key={id}>
+            <li key={id} className="product-item-wrapper">
               <div className="product">
-                <img src={image} alt={title}/>
-                <p>{title}</p>
-                <div className="product-price">
-                  <div className="button-container">
-                    <button 
-                      onClick={() => handleAddToCart(x)}
-                      className={clickedButtons[id] ? "clicked" : ""}
-                    >
-                      <i className="fa fa-shopping-cart"></i> افزودن به سبد خرید
-                    </button>
-                    {addedMessages[id] && (
-                      <span className="added-message">
-                        <i className="fa fa-check-circle"></i> به سبد اضافه شد
-                      </span>
-                    )}
+                <div className="product-image-container">
+                  <img src={image} alt={title} className="product-image"/>
+                </div>
+                <div className="product-details">
+                  <p className="product-title">{title}</p>
+                  <div className="product-price">
+                    <div className="button-container">
+                      <button 
+                        onClick={() => handleAddToCart(x)}
+                        className={clickedButtons[id] ? "clicked" : ""}
+                      >
+                        <i className="fa fa-shopping-cart"></i> افزودن به سبد خرید
+                      </button>
+                      {addedMessages[id] && (
+                        <span className="added-message">
+                          <i className="fa fa-check-circle"></i> به سبد اضافه شد
+                        </span>
+                      )}
+                    </div>
+                    <div className="price">{formatCurrency(price)}</div>
                   </div>
-                  <div className="price">{formatCurrency(price)}</div>
                 </div>
               </div>
             </li>
