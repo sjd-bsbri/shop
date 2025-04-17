@@ -8,39 +8,42 @@ function Cart(props) {
   const totalPrice = itemPrice
 
   return (
-    <>
+    <div className="cart">
         {
           cartItems.length === 0 ? 
-          <div className="empty-price">سبد خرید خالی است.</div>:
-          <div className="show-price">شما {cartItems.length} محصول در سبد خرید دارید</div>
-
+          <div className="empty-price alert alert-info">سبد خرید خالی است.</div>:
+          <div className="show-price alert alert-success">شما {cartItems.length} محصول در سبد خرید دارید</div>
         }
       <div className="cart-item">
         {cartItems.map((item) => 
           <Slide direction="left" key={item.id}>
-            <div className="product-item">
-            <div className="product-detail">
-              <img src={item.image} alt="" />
-              <h2>{item.title}</h2>
-            </div>
-            <div className="product-price">
-              <div className="price">
-                <span>{formatCurrency(item.price)}</span>
-                <span className="qty"> {item.qty} خرید</span>
+            <div className="product-item card mb-2">
+              <div className="product-detail card-body d-flex align-items-center">
+                <img src={item.image} alt="" className="img-fluid me-2" style={{maxWidth: "60px"}} />
+                <h5 className="card-title mb-0">{item.title}</h5>
               </div>
-              <div className="remove-item">
-                <button onClick={() => removeProducts(item)}>حذف از سبد</button>
+              <div className="product-price card-footer d-flex justify-content-between align-items-center">
+                <div className="price">
+                  <span>{formatCurrency(item.price)}</span>
+                  <span className="qty badge bg-secondary ms-2"> {item.qty} خرید</span>
+                </div>
+                <div className="remove-item">
+                  <button className="btn btn-sm btn-danger" onClick={() => removeProducts(item)}>حذف از سبد</button>
+                </div>
               </div>
             </div>
-          </div>
           </Slide>
         )}
       </div>
-      <div className="total-price">
-        <div className="total-text">مجموع قیمت :</div>
-        <div className="total">{formatCurrency(totalPrice)}</div>
-      </div>
-    </>
+      {cartItems.length > 0 && (
+        <div className="total-price card mt-3">
+          <div className="card-body d-flex justify-content-between">
+            <div className="total-text fw-bold">مجموع قیمت :</div>
+            <div className="total">{formatCurrency(totalPrice)}</div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
