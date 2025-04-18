@@ -1,0 +1,67 @@
+/* Added to cart success message styling */
+.products li .product-price .added-message,
+.products li .product-price-section .added-message {
+  position: absolute;
+  top: 100%;
+  margin-top: 8px;
+  background-color: rgba(46, 204, 113, 0.9);
+  color: white;
+  font-size: 1.2rem;
+  padding: 6px 12px;
+  border-radius: 20px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  animation: successPulse 0.5s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-weight: 500;
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  min-width: 120px;
+  text-align: center;
+  z-index: 10;
+}
+
+.products li .product-price .added-message i,
+.products li .product-price-section .added-message i {
+  color: white;
+  font-size: 1.4rem;
+  animation: iconBounce 0.6s ease;
+}
+
+.dark-mode .products li .product-price .added-message,
+.dark-mode .products li .product-price-section .added-message {
+  background-color: rgba(46, 204, 113, 0.85);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@keyframes successPulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes iconBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-4px);
+  }
+  50% {
+    transform: translateY(2px);
+  }
+  70% {
+    transform: translateY(-1px);
+  }
+} 

@@ -66,8 +66,8 @@ function Products({ item, addProducts }) {
                         <i className="fa fa-shopping-cart"></i> <span className="button-text">افزودن به سبد خرید</span>
                       </button>
                       {addedMessages[id] && (
-                        <span className="added-message">
-                          <i className="fa fa-check-circle"></i> به سبد اضافه شد
+                        <span className="added-message success-toast">
+                          <i className="fa fa-check-circle success-icon"></i> به سبد اضافه شد
                         </span>
                       )}
                     </div>
