@@ -22,9 +22,6 @@ function Cart(props) {
                 <img src={item.image} alt="" className="img-fluid me-2" style={{maxWidth: "60px"}} />
                 <div className="cart-item-details">
                   <h5 className="card-title mb-0">{item.title}</h5>
-                  <div className="item-qty-price">
-                    {formatCurrency(item.price)} × {item.qty}
-                  </div>
                 </div>
               </div>
               <div className="product-price card-footer d-flex justify-content-between align-items-center">
