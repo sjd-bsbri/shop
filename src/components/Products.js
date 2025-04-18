@@ -54,7 +54,10 @@ function Products({ item, addProducts }) {
                 </div>
                 <div className="product-details">
                   <p className="product-title">{title}</p>
-                  <div className="product-price">
+                  <div className="product-price-section">
+                    <div className="price-container">
+                      <span className="price">{formatCurrency(price)}</span>
+                    </div>
                     <div className="button-container">
                       <button 
                         onClick={() => handleAddToCart(x)}
@@ -67,9 +70,6 @@ function Products({ item, addProducts }) {
                           <i className="fa fa-check-circle"></i> به سبد اضافه شد
                         </span>
                       )}
-                    </div>
-                    <div className="price-container">
-                      <span className="price">{formatCurrency(price)}</span>
                     </div>
                   </div>
                 </div>
