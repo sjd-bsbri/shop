@@ -9,7 +9,9 @@ function Home() {
   const [brand, setBrand] = useState("");
   const [cartItems, setCartItems] = useState([]);
   const [isCartModalOpen, setIsCartModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const modalRef = useRef(null);
+  const mobileMenuRef = useRef(null);
   
   const sortProducts = (event) => {
     setSort(event.target.value);
@@ -63,18 +65,28 @@ function Home() {
 
   const toggleCartModal = () => {
     setIsCartModalOpen(!isCartModalOpen);
+    if (isMobileMenuOpen) setIsMobileMenuOpen(false);
   };
   
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+    if (isCartModalOpen) setIsCartModalOpen(false);
+  };
+
   // Close modal when clicking outside
   const handleClickOutside = (event) => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
       setIsCartModalOpen(false);
     }
+    if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target) && 
+        !event.target.closest('.hamburger-menu')) {
+      setIsMobileMenuOpen(false);
+    }
   };
 
   useEffect(() => {
-    // Add event listener when modal is open
-    if (isCartModalOpen) {
+    // Add event listener when modal or mobile menu is open
+    if (isCartModalOpen || isMobileMenuOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     } else {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -84,7 +96,7 @@ function Home() {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isCartModalOpen]);
+  }, [isCartModalOpen, isMobileMenuOpen]);
 
   const getMode = () => {
     const initialMode = localStorage.getItem("mode");
@@ -113,6 +125,9 @@ function Home() {
       <header className="header">
         <div className="container">
           <div className="nav">
+            <button className="hamburger-menu" onClick={toggleMobileMenu}>
+              <i className="fa fa-bars"></i>
+            </button>
             <ul>
               <li>خانه</li>
               <li>درباره ما</li>
@@ -170,6 +185,20 @@ function Home() {
             <Cart cartItems={cartItems} removeProducts={removeProducts} />
           </div>
         </div>
+      </div>
+      
+      {/* Mobile Menu */}
+      <div className={`mobile-menu-overlay ${isMobileMenuOpen ? 'open' : ''}`} onClick={toggleMobileMenu}></div>
+      <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`} ref={mobileMenuRef}>
+        <button className="mobile-menu-close" onClick={toggleMobileMenu}>
+          <i className="fa fa-times"></i>
+        </button>
+        <div className="mobile-menu-header">منو</div>
+        <ul className="mobile-menu-items">
+          <li>خانه</li>
+          <li>درباره ما</li>
+          <li>تماس با ما</li>
+        </ul>
       </div>
     </div>
   );

@@ -16,10 +16,26 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+  white-space: nowrap;
 }
 
 .products li .product-price button i {
   font-size: 14px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.button-text {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.products li .product-price .price {
+  color: green;
+  font-weight: bolder;
+  font-size: 1.8rem;
+  white-space: nowrap;
+  direction: rtl;
 }
 
 .products li .product-price button.clicked {
@@ -128,17 +144,19 @@
   color: white;
   border: none;
   border-radius: 30px;
-  padding: 10px 20px;
+  padding: 8px 16px;
   font-weight: bold;
   font-family: "vazir";
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  width: 100%;
+  width: 80%;
+  max-width: 250px;
+  margin: 0 auto;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -177,6 +195,106 @@
 
 .dark-mode .item-qty-price {
   color: #ccc;
+}
+
+/* Hamburger menu icon */
+.hamburger-menu {
+  display: none;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+/* Mobile Navigation Menu */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  height: 100vh;
+  width: 250px;
+  background: white;
+  z-index: 1100;
+  transition: all 0.3s ease;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.mobile-menu.open {
+  right: 0;
+}
+
+.dark-mode .mobile-menu {
+  background: rgb(14, 47, 48);
+}
+
+.mobile-menu-close {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: transparent;
+  border: none;
+  color: #333;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.dark-mode .mobile-menu-close {
+  color: white;
+}
+
+.mobile-menu-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  font-size: 1.8rem;
+}
+
+.dark-mode .mobile-menu-header {
+  border-color: #444;
+}
+
+.mobile-menu-items {
+  list-style: none;
+  padding: 0;
+}
+
+.mobile-menu-items li {
+  margin-bottom: 15px;
+  font-size: 1.6rem;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mobile-menu-items li:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.dark-mode .mobile-menu-items li:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1090;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-overlay.open {
+  opacity: 1;
+  visibility: visible;
 }
 
 /* Product styles for mobile */
@@ -315,6 +433,10 @@
     display: block;
   }
   
+  .hamburger-menu {
+    display: block;
+  }
+  
   .products li {
     width: 100%;
     margin-bottom: 20px;
@@ -337,6 +459,10 @@
     display: none;
   }
   
+  .nav ul {
+    display: none;
+  }
+  
   .filter {
     flex-direction: column;
     align-items: flex-start;
@@ -349,7 +475,121 @@
     width: 100%;
   }
   
+  .filter .form-checkbox {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+  }
+  
+  .filter .form-group {
+    font-size: 1.3rem;
+  }
+  
   .filter select {
     width: 100%;
   }
+  
+  .products li .product-price button {
+    padding: 8px 14px;
+  }
+  
+  .button-text {
+    font-size: 1.3rem;
+  }
+}
+
+/* Delete button with beautiful hover effects */
+.delete-button {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 6px 12px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  font-family: "vazir";
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.delete-button:hover {
+  background: #c0392b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.delete-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
+}
+
+.delete-button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: all 0.4s ease;
+}
+
+.delete-button:hover::after {
+  left: 100%;
+}
+
+.delete-button i {
+  font-size: 1.1rem;
+}
+
+.dark-mode .delete-button {
+  background: #c0392b;
+}
+
+.dark-mode .delete-button:hover {
+  background: #e74c3c;
+}
+
+/* Total price layout */
+.total-amount {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.total-label {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.dark-mode .total-label {
+  color: #fff;
+}
+
+.total-value {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #27ae60;
+}
+
+.dark-mode .total-value {
+  color: #2ecc71;
+}
+
+/* Price display */
+.price-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }

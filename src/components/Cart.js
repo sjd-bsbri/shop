@@ -33,8 +33,8 @@ function Cart(props) {
                   <span className="qty badge bg-secondary ms-2"> {item.qty} خرید</span>
                 </div>
                 <div className="remove-item">
-                  <button className="btn btn-sm btn-danger" onClick={() => removeProducts(item)}>
-                    <i className="fa fa-trash"></i> حذف از سبد
+                  <button className="delete-button" onClick={() => removeProducts(item)}>
+                    <i className="fa fa-trash"></i> حذف
                   </button>
                 </div>
               </div>
@@ -44,12 +44,12 @@ function Cart(props) {
       </div>
       {cartItems.length > 0 && (
         <div className="total-price card mt-3">
-          <div className="card-body d-flex justify-content-between">
-            <div className="total-text fw-bold">مجموع قیمت :</div>
-            <div className="total">{formatCurrency(totalPrice)}</div>
-          </div>
-          <div className="card-footer text-center">
-            <button className="checkout-button">
+          <div className="card-body text-center">
+            <div className="total-amount">
+              <div className="total-label">مجموع قیمت :</div>
+              <div className="total-value">{formatCurrency(totalPrice)}</div>
+            </div>
+            <button className="checkout-button mt-3">
               <i className="fa fa-credit-card"></i> تکمیل خرید
             </button>
           </div>

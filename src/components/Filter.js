@@ -9,7 +9,7 @@ function Filter(props) {
         <div className="form-checkbox">
           <div className="form-group">
             <input
-            id="x"
+              id="x"
               type="radio"
               value="asc"
               name="radiovalues"
@@ -20,7 +20,7 @@ function Filter(props) {
 
           <div className="form-group">
             <input
-            id="y"
+              id="y"
               type="radio"
               value="desc"
               name="radiovalues"

@@ -60,7 +60,7 @@ function Products({ item, addProducts }) {
                         onClick={() => handleAddToCart(x)}
                         className={clickedButtons[id] ? "clicked" : ""}
                       >
-                        <i className="fa fa-shopping-cart"></i> افزودن به سبد خرید
+                        <i className="fa fa-shopping-cart"></i> <span className="button-text">افزودن به سبد خرید</span>
                       </button>
                       {addedMessages[id] && (
                         <span className="added-message">
@@ -68,7 +68,9 @@ function Products({ item, addProducts }) {
                         </span>
                       )}
                     </div>
-                    <div className="price">{formatCurrency(price)}</div>
+                    <div className="price-container">
+                      <span className="price">{formatCurrency(price)}</span>
+                    </div>
                   </div>
                 </div>
               </div>
