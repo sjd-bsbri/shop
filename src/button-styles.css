@@ -275,8 +275,12 @@
   background: rgba(0, 0, 0, 0.05);
 }
 
-.dark-mode .mobile-menu-items li:hover {
-  background: rgba(255, 255, 255, 0.05);
+.mobile-menu-items li a {
+  color: rgb(0, 0, 0);
+}
+
+.dark-mode .mobile-menu-items li a {
+  color: rgb(255, 255, 255);
 }
 
 .mobile-menu-overlay {

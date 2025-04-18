@@ -2,7 +2,7 @@
 .product-detail-container {
     max-width: 1200px;
     margin: 20px auto;
-    padding: 20px;
+    padding: 0px;
     font-family: 'Vazir', 'Tahoma', sans-serif;
     direction: rtl;
   }
@@ -51,7 +51,7 @@
   
   .product-left-column, .product-right-column {
     flex: 1;
-    min-width: 300px;
+    min-width: 200px;
   }
   
   .product-left-column {

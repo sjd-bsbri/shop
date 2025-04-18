@@ -1,206 +1,86 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
+import { useOutletContext } from "react-router-dom"; // Import useOutletContext
 import Filter from "./Filter";
-import Products from "./Products";
+import Products from "./Products"; // Assuming Products_new.js was renamed or its content merged
 import Cart from "./Cart";
-import { products } from "../data";
+import { products as initialProducts } from "../data"; // Rename to avoid conflict
+
 function Home() {
-  const [item, setItem] = useState(products);
+  // Get props/context from Layout via Outlet
+  const { addProducts, removeProducts, cartItems } = useOutletContext();
+  
+  // State specific to Home page (product filtering/sorting)
+  const [item, setItem] = useState(initialProducts);
   const [sort, setSort] = useState("asc");
   const [brand, setBrand] = useState("");
-  const [cartItems, setCartItems] = useState([]);
-  const [isCartModalOpen, setIsCartModalOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const modalRef = useRef(null);
-  const mobileMenuRef = useRef(null);
   
+  // Sorting logic (remains in Home as it controls the product list here)
   const sortProducts = (event) => {
-    setSort(event.target.value);
-    if (sort === "asc") {
-      setItem(products.sort((a, b) => (a.id < b.id ? 1 : -1)));
+    const currentSort = event.target.value;
+    setSort(currentSort);
+    let sortedItems = [...item]; // Create a copy to sort
+    if (currentSort === "asc") {
+      // Assuming ID based sorting for asc/desc
+      sortedItems.sort((a, b) => a.price - b.price); // Example: sort by price ascending
+    } else if (currentSort === "desc") {
+      sortedItems.sort((a, b) => b.price - a.price); // Example: sort by price descending
+    } else {
+      // Optional: handle 'latest' or other sorts, or reset to default
+      // For now, assume 'latest' means sort by ID descending (newest first)
+      sortedItems.sort((a, b) => b.id - a.id); 
     }
-    if (sort === "desc") {
-      setItem(products.sort((a, b) => (a.id > b.id ? 1 : -1)));
-    }
+    setItem(sortedItems);
   };
 
+  // Filtering logic (remains in Home)
   const filterProducts = (event) => {
-    if (event.target.value === "") {
-      setBrand(event.target.value);
-      setItem(products);
+    const selectedBrand = event.target.value;
+    setBrand(selectedBrand);
+    if (selectedBrand === "") {
+      // Reset to all products if filter is cleared, potentially re-apply sort
+      let resetItems = [...initialProducts];
+      // Re-apply current sort to the full list
+      if (sort === "asc") resetItems.sort((a, b) => a.price - b.price);
+      else if (sort === "desc") resetItems.sort((a, b) => b.price - a.price);
+      else resetItems.sort((a, b) => b.id - a.id); // Default/latest sort
+      setItem(resetItems);
     } else {
-      setBrand(event.target.value);
-      setItem(
-        products.filter(
-          (product) => product.availableBrand.indexOf(event.target.value) >= 0
-        )
+      // Filter from the original list
+      let filtered = initialProducts.filter(
+        (product) => product.availableBrand.includes(selectedBrand)
       );
+      // Apply current sort to the filtered list
+      if (sort === "asc") filtered.sort((a, b) => a.price - b.price);
+      else if (sort === "desc") filtered.sort((a, b) => b.price - a.price);
+      else filtered.sort((a, b) => b.id - a.id); // Default/latest sort
+      setItem(filtered);
     }
   };
 
-  const addProducts = (product) => {
-    const exist = cartItems.find((element) => element.id === product.id);
-    if (exist) {
-      setCartItems(
-        cartItems.map((element) =>
-          element.id === product.id ? { ...exist, qty: exist.qty + 1 } : element
-        )
-      );
-    } else {
-      setCartItems([...cartItems, { ...product, qty: 1 }]);
-    }
-  };
-
-  const removeProducts = (product) => {
-    const exist = cartItems.find((element) => element.id === product.id);
-    if (exist.qty === 1) {
-      setCartItems(cartItems.filter((element) => element.id !== product.id));
-    } else {
-      setCartItems(
-        cartItems.map((element) =>
-          element.id === product.id ? { ...exist, qty: exist.qty - 1 } : element
-        )
-      );
-    }
-  };
-
-  const toggleCartModal = () => {
-    setIsCartModalOpen(!isCartModalOpen);
-    if (isMobileMenuOpen) setIsMobileMenuOpen(false);
-  };
-  
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-    if (isCartModalOpen) setIsCartModalOpen(false);
-  };
-
-  // Close modal when clicking outside
-  const handleClickOutside = (event) => {
-    if (modalRef.current && !modalRef.current.contains(event.target)) {
-      setIsCartModalOpen(false);
-    }
-    if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target) && 
-        !event.target.closest('.hamburger-menu')) {
-      setIsMobileMenuOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    // Add event listener when modal or mobile menu is open
-    if (isCartModalOpen || isMobileMenuOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
-    }
-    
-    // Clean up the event listener
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isCartModalOpen, isMobileMenuOpen]);
-
-  const getMode = () => {
-    const initialMode = localStorage.getItem("mode");
-    if (initialMode == null) {
-      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return JSON.parse(localStorage.getItem("mode"));
-    }
-  };
-
-  const [dark, setDark] = useState(getMode());
-
-  useEffect(() => {
-    localStorage.setItem("mode", JSON.stringify(dark));
-  }, [dark]);
-
-  // Calculate total cart items
-  const totalCartItems = cartItems.reduce((total, item) => total + item.qty, 0);
+  // Removed state: cartItems, dark, modals - Managed by Layout
+  // Removed functions: addProducts, removeProducts, toggleCartModal, toggleMobileMenu, handleClickOutside, getMode - Managed by Layout
+  // Removed useEffects for dark mode and modal listeners - Managed by Layout
 
   return (
-    <div className={dark ? "containers dark-mode" : "containers"}>
-      <header className="header">
-        <div className="container">
-          <div className="nav">
-            <button className="hamburger-menu" onClick={toggleMobileMenu}>
-              <i className="fa fa-bars"></i>
-            </button>
-            <ul>
-              <li>خانه</li>
-              <li>درباره ما</li>
-              <li>تماس با ما</li>
-            </ul>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              {/* Cart Icon for Mobile */}
-              <div className="cart-icon" onClick={toggleCartModal}>
-                <i className="fa fa-shopping-cart"></i>
-                {totalCartItems > 0 && (
-                  <span className="cart-count">{totalCartItems}</span>
-                )}
-              </div>
-              <label htmlFor="q" className="switch">
-                <input
-                  id="q"
-                  type="checkbox"
-                  onChange={() => setDark(!dark)}
-                  checked={dark}
-                />
-                <span className="slider round"></span>
-              </label>
-            </div>
-          </div>
-        </div>
-      </header>
-      <main>
-        <div className="content">
-          <div className="main">
-            <Filter
-              count={item.length}
-              sortProducts={sortProducts}
-              brand={brand}
-              filterProducts={filterProducts}
-            />
-            <Products item={item} addProducts={addProducts} />
-          </div>
-          <div className="sidebar">
-            <Cart cartItems={cartItems} removeProducts={removeProducts} />
-          </div>
-        </div>
-      </main>
-      <footer>طراحی توسط خودمون :) </footer>
-
-      {/* Mobile Cart Modal */}
-      <div className={`mobile-cart-modal ${isCartModalOpen ? 'open' : ''}`}>
-        <div className="mobile-cart-content" ref={modalRef}>
-          <div className="mobile-cart-header">
-            <h2>سبد خرید</h2>
-            <button className="mobile-cart-close" onClick={toggleCartModal}>
-              <i className="fa fa-times"></i>
-            </button>
-          </div>
-          <div className="mobile-cart-body">
-            <Cart cartItems={cartItems} removeProducts={removeProducts} />
-          </div>
-        </div>
+    // The main content structure, header/footer are now in Layout
+    <div className="content">
+      <div className="main">
+        <Filter
+          count={item.length}
+          sort={sort} // Pass sort state
+          sortProducts={sortProducts}
+          brand={brand}
+          filterProducts={filterProducts}
+        />
+        {/* Pass addProducts down to Products component */}
+        <Products item={item} addProducts={addProducts} />
       </div>
-      
-      {/* Mobile Menu */}
-      <div className={`mobile-menu-overlay ${isMobileMenuOpen ? 'open' : ''}`} onClick={toggleMobileMenu}></div>
-      <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`} ref={mobileMenuRef}>
-        <button className="mobile-menu-close" onClick={toggleMobileMenu}>
-          <i className="fa fa-times"></i>
-        </button>
-        <div className="mobile-menu-header">منو</div>
-        <ul className="mobile-menu-items">
-          <li>خانه</li>
-          <li>درباره ما</li>
-          <li>تماس با ما</li>
-        </ul>
+      <div className="sidebar">
+        {/* Cart component now receives its props from Layout via context */}
+        <Cart cartItems={cartItems} removeProducts={removeProducts} />
       </div>
     </div>
+    // Removed Header, Footer, Modals - Managed by Layout
   );
 }
 
