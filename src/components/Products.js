@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import formatCurrency from "./Util";
-import {Fade} from 'react-awesome-reveal';
+// import {Fade} from 'react-awesome-reveal';
+import { Link } from "react-router-dom";
 
 function Products({ item, addProducts }) {
   const [clickedButtons, setClickedButtons] = useState({});
@@ -41,7 +42,7 @@ function Products({ item, addProducts }) {
 
   return (
     <div>
-      <Fade direction="down" duration={650}>
+      {/* <Fade direction="down" duration={650}> */}
       <ul className="products">
         {item.map((x) => {
           // eslint-disable-next-line no-unused-vars
@@ -53,7 +54,10 @@ function Products({ item, addProducts }) {
                   <img src={image} alt={title} className="product-image"/>
                 </div>
                 <div className="product-details">
-                  <p className="product-title">{title}</p>
+                  <div className="product-title-container">
+                    <p className="product-title">{title}</p>
+                    <Link to={`/product/${id}`} className="more-info-link">اطلاعات بیشتر</Link>
+                  </div>
                   <div className="product-price-section">
                     <div className="price-container">
                       <span className="price">{formatCurrency(price)}</span>
@@ -78,7 +82,7 @@ function Products({ item, addProducts }) {
           );
         })}
       </ul>
-      </Fade>
+      {/* </Fade> */}
     </div>
   );
 }
