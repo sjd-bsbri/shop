@@ -747,4 +747,335 @@ main {
   }
 }
 
+/* Contact Page Styles */
+.contact-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.contact-info-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+  margin: 40px 0;
+}
+
+.contact-info-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-info-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.contact-info-item .icon {
+  font-size: 24px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.contact-info-item .content {
+  /* flex: 1;
+   */
+   display: inline-block;
+   padding: 0px;
+}
+
+.contact-info-item h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.contact-info-item p {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #666;
+}
+
+.contact-info-item p.description {
+  font-size: 12px;
+  color: #888;
+  margin-top: 10px;
+}
+
+.contact-main-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin: 60px 0;
+}
+
+.contact-form-section h2,
+.social-media-section h2,
+.map-section h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.contact-form-section h2::after,
+.social-media-section h2::after,
+.map-section h2::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+}
+
+.contact-form-section p,
+.social-media-section p {
+  margin-bottom: 25px;
+  font-size: 14px;
+  color: #666;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #444;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  transition: border-color 0.3s ease;
+  font-family: "vazir";
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #a777e3;
+  outline: none;
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  font-family: "vazir";
+  display: block;
+  width: 100%;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.form-message {
+  padding: 12px 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.form-message.success {
+  background-color: #e7f5ea;
+  color: #28a745;
+  border: 1px solid #c3e6cb;
+}
+
+.form-message.error {
+  background-color: #f8d7da;
+  color: #dc3545;
+  border: 1px solid #f5c6cb;
+}
+
+.social-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  border-radius: 6px;
+  color: white;
+  font-size: 14px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  text-decoration: none;
+}
+
+.social-link:hover {
+  transform: translateY(-3px);
+  opacity: 0.9;
+}
+
+.social-link span {
+  margin-right: 10px;
+}
+
+.social-link.instagram {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+}
+
+.social-link.telegram {
+  background: #0088cc;
+}
+
+.social-link.twitter {
+  background: #1da1f2;
+}
+
+.social-link.facebook {
+  background: #4267B2;
+}
+
+.social-link.whatsapp {
+  background: #25D366;
+}
+
+.map-section {
+  margin: 60px 0 40px;
+}
+
+.map-container {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  height: 450px;
+}
+
+/* Dark mode styles for contact page */
+.dark-mode .contact-info-item {
+  background-color: #2a2a2a;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .contact-info-item h3 {
+  color: #e1e1e1;
+}
+
+.dark-mode .contact-info-item p {
+  color: #b0b0b0;
+}
+
+.dark-mode .contact-info-item p.description {
+  color: #8a8a8a;
+}
+
+.dark-mode .contact-form-section h2,
+.dark-mode .social-media-section h2,
+.dark-mode .map-section h2 {
+  color: #e1e1e1;
+}
+
+.dark-mode .contact-form-section p,
+.dark-mode .social-media-section p {
+  color: #b0b0b0;
+}
+
+.dark-mode .form-group label {
+  color: #c0c0c0;
+}
+
+.dark-mode .form-group input,
+.dark-mode .form-group textarea {
+  background-color: #333;
+  border-color: #444;
+  color: #e1e1e1;
+}
+
+.dark-mode .form-group input:focus,
+.dark-mode .form-group textarea:focus {
+  border-color: #a777e3;
+}
+
+.dark-mode .form-message.success {
+  background-color: #1c3926;
+  color: #6de490;
+  border-color: #2a5a3a;
+}
+
+.dark-mode .form-message.error {
+  background-color: #3b1c1e;
+  color: #e66a73;
+  border-color: #5a2a2e;
+}
+
+.dark-mode .map-container {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive styles for contact page */
+@media (max-width: 992px) {
+  .contact-main-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .social-media-section {
+    margin-top: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-info-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .social-links {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-info-item {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .contact-info-item .icon {
+    margin: 0 auto 15px;
+  }
+  
+  .social-links {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .map-container {
+    height: 350px;
+  }
+}
+
 
