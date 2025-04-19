@@ -3,14 +3,21 @@ import { Outlet, Link } from "react-router-dom";
 import Cart from "./Cart";
 
 function Layout() {
-  // State for cart, modals, dark mode (moved from Home.js)
-  const [cartItems, setCartItems] = useState([]); // Consider lifting state if needed by ProductDetail
+  const [cartItems, setCartItems] = useState(() => {
+    try {
+      const savedCart = localStorage.getItem('cartItems');
+      return savedCart ? JSON.parse(savedCart) : [];
+    } catch (error) {
+      console.error("Failed to parse cart items from localStorage", error);
+      return []; 
+    }
+  });
+
   const [isCartModalOpen, setIsCartModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const modalRef = useRef(null);
   const mobileMenuRef = useRef(null);
   
-  // Function to get initial dark mode setting
   const getMode = () => {
     const initialMode = localStorage.getItem("mode");
     if (initialMode == null) {
@@ -20,12 +27,16 @@ function Layout() {
         return false;
       }
     } else {
-      return JSON.parse(localStorage.getItem("mode"));
+      try {
+        return JSON.parse(initialMode);
+      } catch (error) {
+        console.error("Failed to parse dark mode setting from localStorage", error);
+        return false; 
+      }
     }
   };
   const [dark, setDark] = useState(getMode());
 
-  // Effect to save dark mode preference
   useEffect(() => {
     localStorage.setItem("mode", JSON.stringify(dark));
     if (dark) {
@@ -35,34 +46,40 @@ function Layout() {
     }
   }, [dark]);
 
-  // Handlers for cart operations (moved from Home.js)
-  const addProducts = (product) => {
-    const exist = cartItems.find((element) => element.id === product.id);
-    if (exist) {
-      setCartItems(
-        cartItems.map((element) =>
-          element.id === product.id ? { ...exist, qty: exist.qty + 1 } : element
-        )
-      );
-    } else {
-      setCartItems([...cartItems, { ...product, qty: 1 }]);
+  useEffect(() => {
+    try {
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    } catch (error) {
+      console.error("Failed to save cart items to localStorage", error);
     }
+  }, [cartItems]);
+
+  const addProducts = (product) => {
+    setCartItems(prevCartItems => {
+        const exist = prevCartItems.find((element) => element.id === product.id);
+        if (exist) {
+        return prevCartItems.map((element) =>
+            element.id === product.id ? { ...exist, qty: exist.qty + 1 } : element
+        );
+        } else {
+        return [...prevCartItems, { ...product, qty: 1 }];
+        }
+    });
   };
 
   const removeProducts = (product) => {
-    const exist = cartItems.find((element) => element.id === product.id);
-    if (exist.qty === 1) {
-      setCartItems(cartItems.filter((element) => element.id !== product.id));
-    } else {
-      setCartItems(
-        cartItems.map((element) =>
-          element.id === product.id ? { ...exist, qty: exist.qty - 1 } : element
-        )
-      );
-    }
+    setCartItems(prevCartItems => {
+        const exist = prevCartItems.find((element) => element.id === product.id);
+        if (exist.qty === 1) {
+        return prevCartItems.filter((element) => element.id !== product.id);
+        } else {
+        return prevCartItems.map((element) =>
+            element.id === product.id ? { ...exist, qty: exist.qty - 1 } : element
+        );
+        }
+    });
   };
 
-  // Handlers for toggling modals (moved from Home.js)
   const toggleCartModal = () => {
     setIsCartModalOpen(!isCartModalOpen);
     if (isMobileMenuOpen) setIsMobileMenuOpen(false);
@@ -73,9 +90,8 @@ function Layout() {
     if (isCartModalOpen) setIsCartModalOpen(false);
   };
 
-  // Handler for clicks outside modals (moved from Home.js)
   const handleClickOutside = (event) => {
-    if (modalRef.current && !modalRef.current.contains(event.target)) {
+    if (modalRef.current && !modalRef.current.contains(event.target) && !event.target.closest('.cart-icon')) {
       setIsCartModalOpen(false);
     }
     if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target) && 
@@ -84,95 +100,89 @@ function Layout() {
     }
   };
 
-  // Effect for modal click outside listener (moved from Home.js)
   useEffect(() => {
     if (isCartModalOpen || isMobileMenuOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('click', handleClickOutside, true); // Use capture phase
     } else {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('click', handleClickOutside, true);
     }
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('click', handleClickOutside, true);
     };
   }, [isCartModalOpen, isMobileMenuOpen]);
 
-  // Calculate total cart items
   const totalCartItems = cartItems.reduce((total, item) => total + item.qty, 0);
 
   return (
-    // Apply dark mode class to the root div or directly to body via useEffect
-    <div className={dark ? "containers dark-mode" : "containers"}>
-      <header className="header">
-        <div className="container">
-          <div className="nav">
-            <button className="hamburger-menu" onClick={toggleMobileMenu}>
-              <i className="fa fa-bars"></i>
-            </button>
-            {/* Use Link for navigation */}
-            <ul>
-              <li ><Link style={{color:"white"}} to="/">خانه</Link></li>
-              {/* Add other links as needed */}
-              <li><Link style={{color:"white"}} to="/about">درباره ما</Link></li>
-              <li><Link style={{color:"white"}} to="/contact">تماس با ما</Link></li>
-            </ul>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <div className="cart-icon" onClick={toggleCartModal}>
-                <i className="fa fa-shopping-cart"></i>
-                {totalCartItems > 0 && (
-                  <span className="cart-count">{totalCartItems}</span>
-                )}
+    <div className={dark ? "dark-mode" : ""}> 
+          <div className="containers"> 
+                    <header className="header">
+          <div className="container">
+            <div className="nav">
+              <button className="hamburger-menu" onClick={toggleMobileMenu}>
+                <i className="fa fa-bars"></i>
+              </button>
+              <ul>
+                <li><Link style={{color:"white"}}to="/">خانه</Link></li>
+                <li><Link style={{color:"white"}}to="/about">درباره ما</Link></li>
+                <li><Link style={{color:"white"}}to="/contact">تماس با ما</Link></li>
+              </ul>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div className="cart-icon" onClick={toggleCartModal}>
+                  <i className="fa fa-shopping-cart"></i>
+                  {totalCartItems > 0 && (
+                    <span className="cart-count">{totalCartItems}</span>
+                  )}
+                </div>
+                <label htmlFor="darkModeToggle" className="switch">
+                  <input
+                    id="darkModeToggle"
+                    type="checkbox"
+                    onChange={() => setDark(!dark)}
+                    checked={dark}
+                  />
+                  <span className="slider round"></span>
+                </label>
               </div>
-              <label htmlFor="darkModeToggle" className="switch">
-                <input
-                  id="darkModeToggle"
-                  type="checkbox"
-                  onChange={() => setDark(!dark)}
-                  checked={dark}
-                />
-                <span className="slider round"></span>
-              </label>
+            </div>
+          </div>
+        </header>
+
+        <main>
+                 <Outlet context={{ addProducts, removeProducts, cartItems }} />
+        </main>
+
+        <footer>طراحی توسط خودمون :) </footer>
+
+        {/* Mobile Cart Modal */}
+        <div className={`mobile-cart-modal ${isCartModalOpen ? 'open' : ''}`}>
+          <div className="mobile-cart-content" ref={modalRef}>
+            <div className="mobile-cart-header">
+              <h2>سبد خرید</h2>
+              <button className="mobile-cart-close" onClick={toggleCartModal}>
+                <i className="fa fa-times"></i>
+              </button>
+            </div>
+            <div className="mobile-cart-body">
+              <Cart cartItems={cartItems} removeProducts={removeProducts} />
             </div>
           </div>
         </div>
-      </header>
+        
+        {/* Mobile Menu */}
+        <div className={`mobile-menu-overlay ${isMobileMenuOpen ? 'open' : ''}`} onClick={toggleMobileMenu}></div>
+        <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`} ref={mobileMenuRef}>
+          <button className="mobile-menu-close" onClick={toggleMobileMenu}>
+            <i className="fa fa-times"></i>
+          </button>
+          <div className="mobile-menu-header">منو</div>
+          <ul className="mobile-menu-items">
+            <li><Link to="/" onClick={toggleMobileMenu}>خانه</Link></li>
+            <li><Link to="/about" onClick={toggleMobileMenu}>درباره ما</Link></li>
+                <li><Link to="/contact" onClick={toggleMobileMenu}>تماس با ما</Link></li>
 
-      <main>
-        {/* Render the matched child route's component */}
-        {/* Pass down props needed by child components */}
-        <Outlet context={{ addProducts, removeProducts, cartItems }} />
-      </main>
-
-      <footer>طراحی توسط خودمون :) </footer>
-
-      {/* Mobile Cart Modal */}
-      <div className={`mobile-cart-modal ${isCartModalOpen ? 'open' : ''}`}>
-        <div className="mobile-cart-content" ref={modalRef}>
-          <div className="mobile-cart-header">
-            <h2>سبد خرید</h2>
-            <button className="mobile-cart-close" onClick={toggleCartModal}>
-              <i className="fa fa-times"></i>
-            </button>
-          </div>
-          <div className="mobile-cart-body">
-            {/* Pass only necessary props to Cart */}
-            <Cart cartItems={cartItems} removeProducts={removeProducts} />
-          </div>
+          </ul>
         </div>
-      </div>
-      
-      {/* Mobile Menu */}
-      <div className={`mobile-menu-overlay ${isMobileMenuOpen ? 'open' : ''}`} onClick={toggleMobileMenu}></div>
-      <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`} ref={mobileMenuRef}>
-        <button className="mobile-menu-close" onClick={toggleMobileMenu}>
-          <i className="fa fa-times"></i>
-        </button>
-        <div className="mobile-menu-header">منو</div>
-        <ul className="mobile-menu-items">
-           <li><Link to="/" onClick={toggleMobileMenu}>خانه</Link></li>
-           <li><Link to="/about" onClick={toggleMobileMenu}>درباره ما</Link></li>
-           <li><Link to="/contact" onClick={toggleMobileMenu}>تماس با ما</Link></li>
-           {/* Add other links here, ensure toggleMobileMenu is called onClick */}
-        </ul>
       </div>
     </div>
   );
