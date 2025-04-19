@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/shop/static/css/main.030b0bfa.css",
-    "main.js": "/shop/static/js/main.ea81f7fa.js",
+    "main.css": "/shop/static/css/main.483a1182.css",
+    "main.js": "/shop/static/js/main.1d9c9b1c.js",
     "static/media/asus2.png": "/shop/static/media/asus2.1ed202c5067bc5c68537.png",
     "static/media/msi.png": "/shop/static/media/msi.cb8c3467e994cb8435af.png",
     "static/media/hp.png": "/shop/static/media/hp.30e5b421d411f567b483.png",
@@ -9,11 +9,11 @@
     "static/media/apple1.png": "/shop/static/media/apple1.e1d7479882053f6d58ea.png",
     "static/media/apple2.png": "/shop/static/media/apple2.ba8f45c2c8b63dd19d43.png",
     "index.html": "/shop/index.html",
-    "main.030b0bfa.css.map": "/shop/static/css/main.030b0bfa.css.map",
-    "main.ea81f7fa.js.map": "/shop/static/js/main.ea81f7fa.js.map"
+    "main.483a1182.css.map": "/shop/static/css/main.483a1182.css.map",
+    "main.1d9c9b1c.js.map": "/shop/static/js/main.1d9c9b1c.js.map"
   },
   "entrypoints": [
-    "static/css/main.030b0bfa.css",
-    "static/js/main.ea81f7fa.js"
+    "static/css/main.483a1182.css",
+    "static/js/main.1d9c9b1c.js"
   ]
 }
