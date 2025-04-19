@@ -26,7 +26,7 @@ body {
 
 .header{
   display: flex;
-  background: cadetblue;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
   transition: .4s;
 }
 
@@ -558,3 +558,193 @@ main {
     margin: 0 5px; /* Adjust spacing for centered icons */
   }
 }
+
+
+/* About page styles */
+.about-container {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+.about-section {
+  margin-bottom: 50px;
+}
+
+.title-section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.title-section h1 {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  color: #6e8efb;
+}
+
+.section-divider {
+  height: 4px;
+  width: 80px;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+.about-section h2 {
+  font-size: 2.4rem;
+  margin-bottom: 20px;
+  color: #333;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.about-section h2:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+}
+
+.about-section p {
+  font-size: 1.6rem;
+  line-height: 1.7;
+  color: #555;
+}
+
+/* Expertise section */
+.expertise-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.expertise-item {
+  flex: 0 0 calc(33.33% - 20px);
+  background: #fff;
+  padding: 25px;
+  border-radius: 5px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.expertise-item:hover {
+  transform: translateY(-5px);
+}
+
+.expertise-item i {
+  font-size: 3rem;
+  color: #6e8efb;
+  margin-bottom: 15px;
+}
+
+.expertise-item h3 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.expertise-item p {
+  font-size: 1.4rem;
+  color: #666;
+}
+
+/* Values section */
+.values-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  gap: 20px;
+}
+
+.value-item {
+  flex: 0 0 calc(50% - 20px);
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 5px;
+  border-right: 3px solid #6e8efb;
+}
+
+.value-item h3 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.value-item p {
+  font-size: 1.4rem;
+  color: #666;
+}
+
+/* Dark mode styles for About page */
+.dark-mode .title-section h1 {
+  color: #a777e3;
+}
+
+.dark-mode .about-section h2 {
+  color: #f1f1f1;
+}
+
+.dark-mode .about-section p {
+  color: #cccccc;
+}
+
+.dark-mode .expertise-item {
+  background: #2c2c2c;
+}
+
+.dark-mode .expertise-item h3 {
+  color: #f1f1f1;
+}
+
+.dark-mode .expertise-item p {
+  color: #b5b5b5;
+}
+
+.dark-mode .value-item {
+  background: #2c2c2c;
+  border-right-color: #a777e3;
+}
+
+.dark-mode .value-item h3 {
+  color: #f1f1f1;
+}
+
+.dark-mode .value-item p {
+  color: #b5b5b5;
+}
+
+/* Responsive design for About page */
+@media (max-width: 768px) {
+  .expertise-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .expertise-item {
+    flex: 0 0 100%;
+    margin-bottom: 20px;
+  }
+  
+  .values-container {
+    flex-direction: column;
+  }
+  
+  .value-item {
+    flex: 0 0 100%;
+  }
+  
+  .title-section h1 {
+    font-size: 2.5rem;
+  }
+  
+  .about-section h2 {
+    font-size: 2rem;
+  }
+}
+
+
