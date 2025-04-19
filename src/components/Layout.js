@@ -113,19 +113,29 @@ function Layout() {
 
   const totalCartItems = cartItems.reduce((total, item) => total + item.qty, 0);
 
+  // Footer data
+  const socialLinks = [
+    { icon: 'fa-facebook-f', url: '#', name: 'Facebook' },
+    { icon: 'fa-twitter', url: '#', name: 'Twitter' },
+    { icon: 'fa-instagram', url: '#', name: 'Instagram' },
+    { icon: 'fa-linkedin-in', url: '#', name: 'LinkedIn' },
+    { icon: 'fa-github', url: '#', name: 'GitHub' },
+  ];
+  const currentYear = new Date().getFullYear();
+
   return (
     <div className={dark ? "dark-mode" : ""}> 
-          <div className="containers"> 
-                    <header className="header">
+      <div className="containers"> 
+        <header className="header">
           <div className="container">
             <div className="nav">
               <button className="hamburger-menu" onClick={toggleMobileMenu}>
                 <i className="fa fa-bars"></i>
               </button>
               <ul>
-                <li><Link style={{color:"white"}}to="/">خانه</Link></li>
-                <li><Link style={{color:"white"}}to="/about">درباره ما</Link></li>
-                <li><Link style={{color:"white"}}to="/contact">تماس با ما</Link></li>
+                <li><Link style={{color:"white"}} to="/">خانه</Link></li>
+                <li><Link style={{color:"white"}} to="/about">درباره ما</Link></li>
+                <li><Link style={{color:"white"}} to="/contact">تماس با ما</Link></li>
               </ul>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <div className="cart-icon" onClick={toggleCartModal}>
@@ -149,10 +159,44 @@ function Layout() {
         </header>
 
         <main>
-                 <Outlet context={{ addProducts, removeProducts, cartItems }} />
+          <Outlet context={{ addProducts, removeProducts, cartItems }} />
         </main>
 
-        <footer>طراحی توسط خودمون :) </footer>
+        {/* New Footer Structure */}
+        <footer className="site-footer">
+          <div className="footer-container">
+            <div className="footer-section about">
+              <h2>درباره ما</h2>
+              <p>
+                ما یک فروشگاه آنلاین پیشرو در ارائه جدیدترین و باکیفیت‌ترین لپ‌تاپ‌ها و لوازم جانبی هستیم. هدف ما ارائه بهترین تجربه خرید به مشتریان عزیز است.
+              </p>
+            </div>
+
+            <div className="footer-section links">
+              <h2>لینک‌های مفید</h2>
+              <ul>
+                <li><Link to="/">صفحه اصلی</Link></li>
+                {/* Add placeholders based on your actual routes */}
+                <li><Link to="/about">درباره ما</Link></li>
+                <li><Link to="/contact">تماس با ما</Link></li>
+                              </ul>
+            </div>
+
+            <div className="footer-section contact-social">
+              <h2> شبکه‌های اجتماعی</h2>
+              <div className="social-icons">
+                {socialLinks.map((link, index) => (
+                  <a key={index} href={link.url} target="_blank" rel="noopener noreferrer" aria-label={link.name}>
+                    <i className={`fab ${link.icon}`}></i>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <p>&copy; {currentYear} تمامی حقوق محفوظ است. طراحی شده با ❤️</p>
+          </div>
+        </footer>
 
         {/* Mobile Cart Modal */}
         <div className={`mobile-cart-modal ${isCartModalOpen ? 'open' : ''}`}>
@@ -179,8 +223,7 @@ function Layout() {
           <ul className="mobile-menu-items">
             <li><Link to="/" onClick={toggleMobileMenu}>خانه</Link></li>
             <li><Link to="/about" onClick={toggleMobileMenu}>درباره ما</Link></li>
-                <li><Link to="/contact" onClick={toggleMobileMenu}>تماس با ما</Link></li>
-
+            <li><Link to="/contact" onClick={toggleMobileMenu}>تماس با ما</Link></li>
           </ul>
         </div>
       </div>
