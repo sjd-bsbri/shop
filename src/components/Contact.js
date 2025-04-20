@@ -183,27 +183,27 @@ function Contact() {
           <p>برای اطلاع از آخرین محصولات، تخفیف‌ها و اخبار ما را در شبکه‌های اجتماعی دنبال کنید.</p>
           
           <div className="social-links">
-            <a href="" className="social-link instagram">
+            <a href="https://www.instagram.com/" className="social-link instagram">
               <FontAwesomeIcon icon={faInstagram} />
               <span>اینستاگرام</span>
             </a>
             
-            <a href="" className="social-link telegram">
+            <a href="https://telegram.org/" className="social-link telegram">
               <FontAwesomeIcon icon={faTelegram} />
               <span>تلگرام</span>
             </a>
             
-            <a href="" className="social-link twitter">
+            <a href="https://twitter.com/" className="social-link twitter">
               <FontAwesomeIcon icon={faTwitter} />
               <span>توییتر</span>
             </a>
             
-            <a href="" className="social-link facebook">
+            <a href="https://www.facebook.com/" className="social-link facebook">
               <FontAwesomeIcon icon={faFacebook} />
               <span>فیسبوک</span>
             </a>
             
-            <a href="" className="social-link whatsapp">
+            <a href="https://www.whatsapp.com/" className="social-link whatsapp">
               <FontAwesomeIcon icon={faWhatsapp} />
               <span>واتساپ</span>
             </a>

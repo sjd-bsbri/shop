@@ -115,11 +115,11 @@ function Layout() {
 
   // Footer data
   const socialLinks = [
-    { icon: 'fa-facebook-f', url: '#', name: 'Facebook' },
-    { icon: 'fa-twitter', url: '#', name: 'Twitter' },
-    { icon: 'fa-instagram', url: '#', name: 'Instagram' },
-    { icon: 'fa-linkedin-in', url: '#', name: 'LinkedIn' },
-    { icon: 'fa-github', url: '#', name: 'GitHub' },
+    { icon: 'fa-facebook-f', url: 'https://www.facebook.com/', name: 'Facebook' },
+    { icon: 'fa-twitter', url: 'https://twitter.com/', name: 'Twitter' },
+    { icon: 'fa-instagram', url: 'https://www.instagram.com/', name: 'Instagram' },
+    { icon: 'fa-linkedin-in', url: 'https://www.linkedin.com/', name: 'LinkedIn' },
+    { icon: 'fa-github', url: 'https://github.com/', name: 'GitHub' },
   ];
   const currentYear = new Date().getFullYear();
 
